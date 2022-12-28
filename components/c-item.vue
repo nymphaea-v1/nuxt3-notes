@@ -1,11 +1,7 @@
 <template>
   <div
     class="item"
-    :style="{
-      backgroundColor,
-      backgroundImage,
-      border
-    }"
+    :style="styleObject"
   >
     <slot />
   </div>
@@ -39,6 +35,12 @@ const border = computed(() => {
   return isTransparent.value
     ? '1px var(--color-border) solid'
     : '1px transparent solid'
+})
+
+const styleObject = reactive({
+  backgroundImage,
+  backgroundColor,
+  border
 })
 </script>
 
