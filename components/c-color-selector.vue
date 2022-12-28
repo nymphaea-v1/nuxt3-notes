@@ -117,18 +117,18 @@ const emitColor = (color: string) => {
 }
 
 .color-option:first-child {
-  border: 2px solid var(--color-border);
+  border: 2px solid var(--color-border) !important;
 }
 
 .color-option:hover {
-  border: 2px solid var(--color-opposite);
+  border: 2px solid var(--color-opposite) !important;
 
   cursor: pointer;
   filter: brightness(110%);
 }
 
 .color-option.picked {
-  border: 2px solid var(--color-brand);
+  border: 2px solid var(--color-brand) !important;
 }
 
 .color-picker {

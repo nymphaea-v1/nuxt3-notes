@@ -1,5 +1,12 @@
 <template>
-  <div class="item">
+  <div
+    class="item"
+    :style="{
+      backgroundColor,
+      backgroundImage,
+      border
+    }"
+  >
     <slot />
   </div>
 </template>
@@ -13,29 +20,32 @@ const props = withDefaults(defineProps<Props>(), {
   backgroundColor: 'transparent'
 })
 
+const isTransparent = computed(() => props.backgroundColor === 'transparent')
 const schemeStore = useScheme()
 
-const background = computed(() => {
-  if (props.backgroundColor === 'transparent') return null
-
+const backgroundImage = computed(() => {
   const modifier = schemeStore.isDarkScheme ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)'
 
-  return `linear-gradient(${props.backgroundColor}, ${props.backgroundColor}), linear-gradient(${modifier}, ${modifier})`
+  return !isTransparent.value
+    ? `linear-gradient(${props.backgroundColor}, ${props.backgroundColor}), linear-gradient(${modifier}, ${modifier})`
+    : undefined
+})
+
+const backgroundColor = computed(() => {
+  return isTransparent.value ? 'var(--color-background)' : undefined
 })
 
 const border = computed(() => {
-  const borderColor = props.backgroundColor === 'transparent' ? 'var(--color-border)' : 'transparent'
-
-  return `1px ${borderColor} solid`
+  return isTransparent.value
+    ? '1px var(--color-border) solid'
+    : '1px transparent solid'
 })
 </script>
 
 <style scoped>
 .item {
-  border: v-bind(border);
   border-radius: var(--border-radius);
 
-  background-image: v-bind(background);
   background-blend-mode: color;
 }
 </style>
