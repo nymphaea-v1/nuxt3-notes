@@ -1,0 +1,29 @@
+<template>
+  <c-color-selector v-model:color="color" />
+  <c-note-creator
+    class="note-creator"
+    @new-note="addNote"
+  />
+  <c-note-list class="note-list" />
+</template>
+
+<script setup lang="ts">
+import { Note } from '~~/store/notes'
+const addNote = (note: Note) => {
+  useNotes().add(note)
+}
+
+const color = ref('#121212')
+</script>
+
+<style scoped>
+.note-creator {
+  margin: 10px auto;
+}
+
+.note-list {
+  width: 800px;
+  max-width: 90vw;
+  margin: 0 auto;
+}
+</style>

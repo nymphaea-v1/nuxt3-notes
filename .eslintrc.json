@@ -1,0 +1,39 @@
+{
+  "parser": "vue-eslint-parser",
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser",
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": ["tsconfig.json"],
+    "extraFileExtensions": ["vue"]
+  },
+  "plugins": [
+    "nuxt3-auto-import"
+  ],
+  "env": {
+    "vue/setup-compiler-macros": true,
+    "nuxt3-auto-import/nuxt": true
+  },
+  "extends": [
+    "standard-with-typescript",
+    "plugin:vue/vue3-recommended",
+    "plugin:nuxt/recommended"
+  ],
+  "rules": {
+    // https://stackoverflow.com/questions/70803374/vue-linting-errors-for-defineemits-function
+    "func-call-spacing": "off",
+    // https://typescript-eslint.io/docs/linting/troubleshooting/#i-get-errors-from-the-no-undef-rule-about-global-variables-not-being-defined-even-though-there-are-no-typescript-errors
+    "no-undef": "off",
+    "@typescript-eslint/no-unused-vars": "error",
+    "vue/first-attribute-linebreak": ["error", {
+      "singleline": "beside",
+      "multiline": "below"
+    }]
+  },
+  "overrides": [
+    {
+      "files": ["pages/**/*.vue", "layouts/*.vue"],
+      "rules": { "vue/multi-word-component-names": "off" }
+    }
+  ]
+}

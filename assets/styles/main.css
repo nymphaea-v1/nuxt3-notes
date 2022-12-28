@@ -1,0 +1,23 @@
+@import url("./schemes.css");
+
+:root {
+  --opacity-background: 0.4;
+  --border-radius: 8px;
+}
+
+*,
+*::before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: var(--color-text);
+  font-family: Roboto, Arial, sans-serif;
+
+  background-color: var(--color-background);
+
+  transition: background-color 0.2s, color 0.2s;
+}
