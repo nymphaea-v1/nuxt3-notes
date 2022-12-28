@@ -33,7 +33,7 @@ const setMasonryGrid = (container: HTMLElement): void => {
   container.style.height = `${Math.max(...columnCoordsY) - gap}px`
 }
 
-export const vMasonry: ObjectDirective<HTMLElement, WatchSource> = {
+export const masonry: ObjectDirective<HTMLElement, WatchSource> = {
   mounted (element) {
     setMasonryGrid(element)
     resizeObserver.observe(element)

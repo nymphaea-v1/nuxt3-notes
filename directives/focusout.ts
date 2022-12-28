@@ -1,6 +1,6 @@
 import { ObjectDirective } from 'vue'
 
-export const vFocusout: ObjectDirective<HTMLElement, Function> = {
+export const focusout: ObjectDirective<HTMLElement, Function> = {
   beforeMount (element, { value: onFocusout }) {
     if (typeof onFocusout !== 'function') return
 

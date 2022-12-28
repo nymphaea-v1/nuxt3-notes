@@ -1,5 +1,4 @@
 <template>
-  <c-color-selector v-model:color="color" />
   <c-note-creator
     class="note-creator"
     @new-note="addNote"
@@ -12,8 +11,6 @@ import { Note } from '~~/store/notes'
 const addNote = (note: Note) => {
   useNotes().add(note)
 }
-
-const color = ref('#121212')
 </script>
 
 <style scoped>
