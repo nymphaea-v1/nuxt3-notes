@@ -75,7 +75,7 @@ watch(colorSelectorElement, (newValue) => {
 })
 
 const updateLastClickCoords = (event: MouseEvent) => {
-  lastClickCoords.value = useMouseCoords(event)
+  lastClickCoords.value = getMouseCoords(event)
 }
 
 const isOnNoteEdit = ref(false)

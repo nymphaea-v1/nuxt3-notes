@@ -23,7 +23,7 @@ const pickerColor = computed(() => {
   const hexRegexp = /^#[A-Fa-f0-9]{6}$/
   return hexRegexp.test(props.color) ? props.color : '#000000'
 })
-const id = useRandom(10) + ''
+const id = getRandomInteger() + ''
 
 const emitColor = (event: Event) => {
   emits('update:color', (event.currentTarget as HTMLInputElement).value)
