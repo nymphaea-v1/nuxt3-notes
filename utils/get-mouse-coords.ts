@@ -5,7 +5,6 @@ export interface Coordinates {
 
 export const getMouseCoords = (event: MouseEvent, element?: HTMLElement): Coordinates => {
   const targetCoords = (element ?? event.currentTarget as HTMLElement).getBoundingClientRect()
-  console.log(1)
   const offsetX = targetCoords.x
   const offsetY = targetCoords.y
 
