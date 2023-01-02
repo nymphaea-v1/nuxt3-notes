@@ -1,48 +1,46 @@
 <template>
-  <div class="color-picker">
-    <label
-      class="label"
-      :for="id"
-    />
+  <label class="label">
     <input
-      :id="id"
       class="input"
       type="color"
-      :value="pickerColor"
-      @input="emitColor"
+      :value="pickedColor"
+      @input="pickColor"
     >
     <slot />
-  </div>
+  </label>
 </template>
 
 <script setup lang="ts">
 const props = defineProps<{ color: string }>()
 const emits = defineEmits<{ (e: 'update:color', color: string): void }>()
 
-const pickerColor = computed(() => {
-  const hexRegexp = /^#[A-Fa-f0-9]{6}$/
-  return hexRegexp.test(props.color) ? props.color : '#000000'
-})
-const id = getRandomInteger() + ''
+const hexRegexp = /^#[A-Fa-f0-9]{6}$/
+const pickedColor = ref('#000000')
 
-const emitColor = (event: Event) => {
-  emits('update:color', (event.currentTarget as HTMLInputElement).value)
+watch(() => props.color, (color) => {
+  if (pickedColor.value === color) return
+  pickedColor.value = hexRegexp.test(props.color) ? props.color : '#000000'
+})
+
+const pickColor = (event: Event) => {
+  const color = (event.currentTarget as HTMLInputElement).value
+
+  pickedColor.value = color
+  emitColor(color)
+}
+
+const emitColor = (color: string) => {
+  emits('update:color', color)
 }
 </script>
 
 <style scoped>
-.color-picker {
-  position: relative;
-}
-
 .label {
-  position: absolute;
+  position: relative;
 
-  display: block;
-  width: 100%;
-  height: 100%;
+  display: inline-block;
 
-  cursor: inherit;
+  cursor: pointer;
 }
 
 .input {
