@@ -1,6 +1,6 @@
 <template>
   <div
-    class="item"
+    class="card"
     :class="{ transparent: isTransparent }"
   >
     <slot />
@@ -20,19 +20,19 @@ const isTransparent = computed(() => props.backgroundColor === 'transparent')
 </script>
 
 <style scoped>
-.item {
+.card {
   border-radius: var(--border-radius);
 
   background-blend-mode: color;
 }
 
-.transparent {
+.card.transparent {
   border: 1px var(--color-border) solid;
 
   background-color: var(--color-background);
 }
 
-:not(.transparent) {
+.card:not(.transparent) {
   border: 1px transparent solid;
 
   background-image:

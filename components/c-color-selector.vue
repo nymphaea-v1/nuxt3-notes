@@ -89,7 +89,7 @@ const emitColor = (color: string) => {
   background-color: var(--color-background);
 }
 
-.color-option {
+.color-selector .color-option {
   --item-color-border: transparent;
 
   width: 30px;
@@ -99,17 +99,17 @@ const emitColor = (color: string) => {
   overflow: hidden;
 }
 
-.color-option:first-child {
+.color-selector .color-option:first-child {
   border: 2px solid var(--color-border);
 }
 
-.color-option:hover {
+.color-selector .color-option:hover {
   border: 2px solid var(--color-opposite);
 
   cursor: pointer;
 }
 
-.color-option.picked {
+.color-selector .color-option.picked {
   border: 2px solid var(--color-brand);
 }
 
