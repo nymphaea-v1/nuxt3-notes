@@ -4,7 +4,7 @@
     @keydown.ctrl.enter="emitClose"
     @keydown.meta.enter="emitClose"
   >
-    <c-item :background-color="contentDraft.color">
+    <c-card :background-color="contentDraft.color">
       <div class="content">
         <div class="body">
           <c-textarea
@@ -45,7 +45,7 @@
           </div>
         </div>
       </div>
-    </c-item>
+    </c-card>
   </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <c-item
+  <c-card
     class="note"
     :background-color="note.content.color"
   >
@@ -33,7 +33,7 @@
         @delete="emitDelete"
       />
     </div>
-  </c-item>
+  </c-card>
 </template>
 
 <script setup lang="ts">

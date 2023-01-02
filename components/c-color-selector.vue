@@ -1,7 +1,7 @@
 <template>
   <div class="color-selector">
     <client-only>
-      <c-item
+      <c-card
         v-for="(option, type) in colorOptions"
         :key="type"
         :ref="(instanse: any) => option.element = instanse?.$el"
@@ -16,7 +16,7 @@
           :color="pickerColor"
           @update:color="emitColor"
         />
-      </c-item>
+      </c-card>
     </client-only>
   </div>
 </template>
