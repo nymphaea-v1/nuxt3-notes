@@ -95,19 +95,21 @@ const emitDelete = () => {
 
 .content {
   width: 600px;
-  padding: 12px 16px 4px;
 }
 
 .body {
   max-height: 400px;
-  margin-bottom: 10px;
   overflow: auto;
 }
 
 .note-title {
-  margin-bottom: 8px;
+  padding: 16px 14px 0;
 
   font-size: 1.1rem;
+}
+
+.note-text {
+  padding: 12px 14px;
 }
 
 .footer {
@@ -115,6 +117,7 @@ const emitDelete = () => {
 
   display: flex;
   justify-content: space-between;
+  padding: 4px;
 }
 
 .color-selector {
