@@ -6,6 +6,7 @@
         :key="type"
         :ref="(instanse: any) => option.element = instanse?.$el"
         class="color-option"
+        :class="{ picked: picked === type }"
         :background-color="unref(option.color)"
         @click="pickColor(type as string)"
       >
@@ -21,10 +22,25 @@
 </template>
 
 <script setup lang="ts">
-import { Ref } from 'vue'
+import { Ref, ComputedRef } from 'vue'
 
 const props = defineProps<{ color: string }>()
 const emits = defineEmits<{ (e: 'update:color', color: string): void }>()
+
+const customColorsStore = useCustomColors()
+
+onMounted(() => {
+  const initialColor = props.color
+
+  onUnmounted(() => {
+    if (initialColor === props.color || props.color === 'transparent') return
+    customColorsStore.add(props.color)
+  })
+})
+
+const pickerColor: ComputedRef<string> = computed(() => {
+  return props.color === 'transparent' ? pickerColor.value ?? customColorsStore.recentColors[0] : props.color
+})
 
 interface ColorOptions {
   [type: string] : {
@@ -33,60 +49,27 @@ interface ColorOptions {
   }
 }
 
-// computed?
 const colorOptions: ColorOptions = {
-  transparent: { color: 'transparent' }
+  transparent: { color: 'transparent' },
+  picker: { color: pickerColor }
 }
 
-const pickerColor = ref<string>('#000000')
-colorOptions.picker = { color: pickerColor }
-
-watch(() => props.color, (newValue) => {
-  if (newValue !== 'transparent') pickerColor.value = newValue
-}, { immediate: true })
-
-const customColorsStore = useCustomColors()
 customColorsStore.recentColors.forEach((color, index) => {
   colorOptions['recent-' + index] = { color }
 })
 
-onMounted(() => {
-  const initialColor = props.color
-
-  onUnmounted(() => {
-    if (initialColor !== props.color && props.color !== 'transparent') {
-      customColorsStore.add(props.color)
-    }
-  })
-})
-
 const picked = ref<string | null>(null)
 
-const setPicked = (type: string) => {
-  picked.value = type
-}
-
-watch(picked, () => {
-  if (picked.value === null) return
-
-  Object.keys(colorOptions).forEach(key => {
-    if (key === picked.value) colorOptions[key].element?.classList.add('picked')
-    else colorOptions[key].element?.classList.remove('picked')
-  })
-})
-
 onMounted(() => {
-  watch (() => props.color, () => {
-    if (picked.value !== null && props.color === unref(colorOptions[picked.value].color)) return
-    setPicked(props.color === 'transparent' ? 'transparent' : 'picker')
+  watch (() => props.color, (color) => {
+    if (picked.value !== null && color === unref(colorOptions[picked.value].color)) return
+    picked.value = color === 'transparent' ? 'transparent' : 'picker'
   }, { immediate: true })
 })
 
 const pickColor = (type: string) => {
-  const color = colorOptions[type].color
-
-  emitColor(unref(color))
-  setPicked(type)
+  picked.value = type
+  emitColor(unref(colorOptions[type].color))
 }
 
 const emitColor = (color: string) => {
@@ -100,7 +83,7 @@ const emitColor = (color: string) => {
   gap: 6px;
   width: min-content;
   padding: 5px;
-  border: 1px var(--color-border) solid;
+  border: 1px solid var(--color-border);
   border-radius: 14px;
 
   background-color: var(--color-background);
@@ -111,27 +94,27 @@ const emitColor = (color: string) => {
 
   width: 30px;
   height: 30px;
-  border: 0;
+  border: 2px solid transparent;
   border-radius: 100%;
   overflow: hidden;
 }
 
 .color-option:first-child {
-  border: 2px solid var(--color-border) !important;
+  border: 2px solid var(--color-border);
 }
 
 .color-option:hover {
-  border: 2px solid var(--color-opposite) !important;
+  border: 2px solid var(--color-opposite);
 
   cursor: pointer;
-  filter: brightness(110%);
 }
 
 .color-option.picked {
-  border: 2px solid var(--color-brand) !important;
+  border: 2px solid var(--color-brand);
 }
 
 .color-picker {
+  width: 100%;
   height: 100%;
 }
 </style>
