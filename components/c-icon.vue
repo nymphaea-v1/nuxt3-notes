@@ -5,23 +5,29 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import 'virtual:svg-icons-register'
 
 interface Props {
-  prefix?: string
   name: string
+  preservedFill?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  prefix: 'icon'
+  preservedFill: false
 })
 
-const id = computed(() => `${props.prefix}-${props.name}`)
-
-const initialColor = ref<string | null>(null)
+const id = computed(() => `icon-${props.name}`)
+const initialFill = ref<string | null>(null)
 
 onMounted(() => {
-  initialColor.value = document.getElementById(id.value)?.firstElementChild?.getAttribute('fill') || null
+  watchEffect(() => {
+    if (!props.preservedFill) {
+      initialFill.value = null
+      return
+    }
+
+    initialFill.value = document.getElementById(id.value)?.firstElementChild?.getAttribute('fill') ?? null
+  })
 })
 </script>
 
@@ -37,6 +43,6 @@ onMounted(() => {
   height: 2em;
   aspect-ratio: 1;
 
-  color: v-bind(initialColor);
+  color: v-bind(initialFill);
 }
 </style>
