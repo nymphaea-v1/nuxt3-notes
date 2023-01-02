@@ -47,17 +47,9 @@ const emits = defineEmits<{
   (e: 'delete'): void
 }>()
 
-const emitColorSelect = () => {
-  emits('colorSelect')
-}
-
-const emitNoteEdit = () => {
-  emits('noteEdit')
-}
-
-const emitDelete = () => {
-  emits('delete')
-}
+const emitColorSelect = () => emits('colorSelect')
+const emitNoteEdit = () => emits('noteEdit')
+const emitDelete = () => emits('delete')
 </script>
 
 <style scoped>

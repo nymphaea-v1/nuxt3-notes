@@ -29,9 +29,7 @@ const autoResize = (element: HTMLElement) => {
   element.style.height = element.scrollHeight + 1 + 'px'
 }
 
-const emitUpdate = (content: string) => {
-  emits('update:content', content)
-}
+const emitUpdate = (content: string) => emits('update:content', content)
 </script>
 
 <style scoped>

@@ -72,9 +72,7 @@ const pickColor = (type: string) => {
   emitColor(unref(colorOptions[type].color))
 }
 
-const emitColor = (color: string) => {
-  emits('update:color', color)
-}
+const emitColor = (color: string) => emits('update:color', color)
 </script>
 
 <style scoped>

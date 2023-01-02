@@ -29,9 +29,7 @@ const pickColor = (event: Event) => {
   emitColor(color)
 }
 
-const emitColor = (color: string) => {
-  emits('update:color', color)
-}
+const emitColor = (color: string) => emits('update:color', color)
 </script>
 
 <style scoped>

@@ -1,13 +1,6 @@
 <template>
   <div class="note-creator">
     <div
-      v-if="!isEditorOpen"
-      class="preview"
-      @focusin="openEditor"
-    >
-      <c-textarea placeholder="Take a note..." />
-    </div>
-    <div
       v-if="isEditorOpen"
       v-focus-track-leave
       @focusleave="completeNoteEdit"
@@ -18,6 +11,13 @@
         @close="completeNoteEdit"
         @keydown.esc="completeNoteEdit"
       />
+    </div>
+    <div
+      v-else
+      class="preview"
+      @focusin="openEditor"
+    >
+      <c-textarea placeholder="Take a note..." />
     </div>
   </div>
 </template>
