@@ -9,7 +9,8 @@
     </div>
     <div
       v-if="isEditorOpen"
-      v-focusout="completeNoteEdit"
+      v-focus-track-leave
+      @focusleave="completeNoteEdit"
     >
       <c-note-editor
         v-model:content="content"

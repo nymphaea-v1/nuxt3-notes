@@ -8,6 +8,7 @@
 
 <script setup lang="ts">
 import { Note } from '~~/store/notes'
+
 const addNote = (note: Note) => {
   useNotes().add(note)
 }

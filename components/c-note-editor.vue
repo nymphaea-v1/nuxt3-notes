@@ -14,7 +14,7 @@
           />
           <c-textarea
             v-model:content="contentDraft.text"
-            v-focusout.focus
+            v-focus
             placeholder="Take a note..."
             class="note-text"
           />
@@ -28,8 +28,10 @@
             <c-color-selector
               v-if="isOnColorSelect"
               v-model:color="contentDraft.color"
-              v-focusout.focus="closeColorSelector"
+              v-focus-track-leave
+              v-focus
               class="color-selector"
+              @focusleave="closeColorSelector"
             />
           </div>
           <div class="right">

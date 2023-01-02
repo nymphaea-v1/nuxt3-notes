@@ -23,8 +23,10 @@
       v-if="isOnColorSelect"
       ref="colorSelectorElement"
       v-model:color="noteOnColorSelect!.content.color"
-      v-focusout.focus="selectColorDone"
+      v-focus-track-leave
+      v-focus
       class="color-selector"
+      @focusleave="selectColorDone"
     />
     <c-modal-window
       v-if="isOnNoteEdit"
