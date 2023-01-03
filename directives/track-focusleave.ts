@@ -5,11 +5,11 @@ const onFocusout = (event: FocusEvent): void => {
   const relatedTarget = event.relatedTarget as HTMLElement
 
   if (!currentTarget.contains(relatedTarget)) {
-    currentTarget.dispatchEvent(new Event('focusleave'))
+    currentTarget.dispatchEvent(new FocusEvent('focusleave', { relatedTarget }))
   }
 }
 
-export const focusTrackLeave: ObjectDirective<HTMLElement> = {
+export const trackFocusleave: ObjectDirective<HTMLElement> = {
   created (element) {
     element.addEventListener('focusout', onFocusout)
   },

@@ -23,7 +23,7 @@
       v-if="isOnColorSelect"
       ref="colorSelectorElement"
       v-model:color="noteOnColorSelect!.content.color"
-      v-focus-track-leave
+      v-track-focusleave
       v-focus
       class="color-selector"
       @focusleave="selectColorDone"

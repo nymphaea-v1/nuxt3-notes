@@ -2,7 +2,8 @@
   <div class="note-creator">
     <div
       v-if="isEditorOpen"
-      v-focus-track-leave
+      v-track-focusleave
+      tabindex="-1"
       @focusleave="completeNoteEdit"
     >
       <c-note-editor

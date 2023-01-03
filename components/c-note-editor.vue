@@ -28,7 +28,7 @@
           <c-color-selector
             v-if="isOnColorSelect"
             v-model:color="contentDraft.color"
-            v-focus-track-leave
+            v-track-focusleave
             v-focus
             class="color-selector"
             @focusleave="closeColorSelector"
