@@ -1,8 +1,5 @@
 <template>
-  <div
-    ref="root"
-    class="note-actions"
-  >
+  <div class="note-actions">
     <c-icon-button
       class="button"
       name="palette"

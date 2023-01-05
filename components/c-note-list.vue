@@ -5,18 +5,15 @@
   >
     <div v-masonry="notes">
       <client-only>
-        <div
+        <c-note
           v-for="note in notes"
           :key="note.id"
           class="note-item"
-        >
-          <c-note
-            :note="note"
-            @color-select="selectColor(note)"
-            @note-edit="editNote(note)"
-            @delete="deleteNote(note.id)"
-          />
-        </div>
+          :note="note"
+          @color-select="selectColor(note)"
+          @note-edit="editNote(note)"
+          @delete="deleteNote(note.id)"
+        />
       </client-only>
     </div>
     <c-color-selector

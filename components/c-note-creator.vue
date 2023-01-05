@@ -1,18 +1,14 @@
 <template>
   <div class="note-creator">
-    <div
+    <c-note-editor
       v-if="isEditorOpen"
+      v-model:content="content"
       v-track-focusleave
-      tabindex="-1"
       @focusleave="completeNoteEdit"
-    >
-      <c-note-editor
-        v-model:content="content"
-        @delete="closeEditor"
-        @close="completeNoteEdit"
-        @keydown.esc="completeNoteEdit"
-      />
-    </div>
+      @delete="closeEditor"
+      @close="completeNoteEdit"
+      @keydown.esc="completeNoteEdit"
+    />
     <div
       v-else
       class="preview"

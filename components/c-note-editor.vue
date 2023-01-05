@@ -20,21 +20,11 @@
         />
       </div>
       <div class="footer">
-        <div class="left">
-          <c-note-actions
-            @delete="emitDelete"
-            @color-select="openColorSelector"
-          />
-          <c-color-selector
-            v-if="isOnColorSelect"
-            v-model:color="contentDraft.color"
-            v-track-focusleave
-            v-focus
-            class="color-selector"
-            @focusleave="closeColorSelector"
-          />
-        </div>
-        <div class="right">
+        <c-note-actions
+          @delete="emitDelete"
+          @color-select="openColorSelector"
+        />
+        <div class="buttons">
           <c-button
             class="close-button"
             type="borderless"
@@ -43,6 +33,14 @@
             <span>Закрыть</span>
           </c-button>
         </div>
+        <c-color-selector
+          v-if="isOnColorSelect"
+          v-model:color="contentDraft.color"
+          v-track-focusleave
+          v-focus
+          class="color-selector"
+          @focusleave="closeColorSelector"
+        />
       </div>
     </div>
   </c-card>
