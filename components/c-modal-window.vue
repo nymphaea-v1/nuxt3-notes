@@ -1,34 +1,21 @@
 <template>
-  <div
-    ref="modalContainer"
-    class="modal-container"
-    @mousedown.self="trackClick"
-    @keydown.esc="emitClose"
-  >
-    <div class="modal-window">
-      <slot />
+  <teleport to="body">
+    <div
+      v-track-exactclick
+      class="modal-container"
+      @exactclick="emitClose"
+      @keydown.esc="emitClose"
+    >
+      <div class="modal-window">
+        <slot />
+      </div>
     </div>
-  </div>
+  </teleport>
 </template>
 
 <script setup lang="ts">
-const emits = defineEmits<{
-  (e: 'close'): void
-}>()
-
-const trackClick = (event: Event) => {
-  event.target!.addEventListener('mouseup', onMouseup, { once: true })
-}
-
-const onMouseup = (event: Event) => {
-  if (event.target !== null && event.target === event.currentTarget) {
-    emitClose()
-  }
-}
-
-const emitClose = () => {
-  emits('close')
-}
+const emits = defineEmits<{ (e: 'close'): void }>()
+const emitClose = () => emits('close')
 </script>
 
 <style scoped>
