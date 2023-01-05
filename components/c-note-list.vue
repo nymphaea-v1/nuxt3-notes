@@ -25,7 +25,7 @@
       class="color-selector"
       @focusleave="selectColorDone"
     />
-    <c-modal-window
+    <c-modal
       v-if="isOnNoteEdit"
       @close="editNoteDone"
     >
@@ -34,7 +34,7 @@
         @delete="deleteNoteOnEdit"
         @close="editNoteDone"
       />
-    </c-modal-window>
+    </c-modal>
   </div>
 </template>
 
