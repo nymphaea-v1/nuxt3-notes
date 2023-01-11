@@ -8,7 +8,7 @@
         <c-note
           v-for="note in notes"
           :key="note.id"
-          class="note-item"
+          class="note"
           :note="note"
           @color-select="selectColor(note)"
           @note-edit="editNote(note)"
@@ -117,7 +117,7 @@ const deleteNote = (id: number) => {
   width: 800px;
 }
 
-.note-item {
+.note {
   position: absolute;
 }
 
