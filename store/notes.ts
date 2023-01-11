@@ -16,6 +16,11 @@ export class Note {
   }
 }
 
+const defaultNotes = [
+  { id: 0, creationTime: 0, content: { color: 'transparent', title: 'About this project', text: 'This site is a minimal copy of Google Keep with small adjustments.\n\nYou can find the source code in github @nymphaea-v1' } },
+  { id: 1, creationTime: 0, content: { color: '#57fff4', title: 'Take your first note!', text: 'To make a note, click on "Take a note..." field and start typing. ' } }
+]
+
 export const useNotes = defineStore('notes', () => {
   const notes = useLocalStorage<Note[]>('notes', [])
 
@@ -32,6 +37,10 @@ export const useNotes = defineStore('notes', () => {
 
   const getById = (id: number): Note | undefined => {
     return notes.value.find(note => note.id === id)
+  }
+
+  if (process.client && notes.value.length === 0) {
+    notes.value = [...defaultNotes]
   }
 
   return { notes: skipHydrate(notes), add, remove, getById }
