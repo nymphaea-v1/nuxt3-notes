@@ -75,10 +75,6 @@ const emitClose = () => emits('close')
 
 <style scoped>
 .note-editor {
-  width: min-content;
-}
-
-.content {
   width: 600px;
 }
 

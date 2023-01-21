@@ -13,10 +13,9 @@ const setMasonryGrid = (container: HTMLElement): void => {
 
   const gap = 10
   const containerWidth = container.clientWidth
-  const itemWidth = items[0].clientWidth
+  const itemWidth = (items[0] as HTMLElement).offsetWidth
   const columnNumber = Math.floor((gap + containerWidth) / (itemWidth + gap))
   const marginX = (containerWidth - columnNumber * (itemWidth + gap) + gap) / 2
-
   const columnCoordsX = Array<number>(columnNumber).fill(0).map((_, i) => marginX + (itemWidth + gap) * i)
   const columnCoordsY = Array<number>(columnNumber).fill(0)
 

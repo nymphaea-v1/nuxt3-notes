@@ -16,6 +16,7 @@ const addNote = (note: Note) => {
 
 <style scoped>
 .note-creator {
+  max-width: 90%;
   margin: 10px auto;
 }
 

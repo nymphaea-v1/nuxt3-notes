@@ -57,6 +57,12 @@ const emitDelete = () => emits('delete')
   width: 230px;
 }
 
+@media screen and (max-width: 521px) {
+  .note {
+    width: 100%;
+  }
+}
+
 .content {
   display: flex;
   flex-direction: column;

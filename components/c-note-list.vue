@@ -31,6 +31,7 @@
     >
       <c-note-editor
         v-model:content="noteOnEditContent"
+        class="note-editor"
         @delete="deleteNoteOnEdit"
         @close="editNoteDone"
       />
@@ -119,6 +120,10 @@ const deleteNote = (id: number) => {
 
 .note {
   position: absolute;
+}
+
+.note-editor {
+  max-width: 90vw;
 }
 
 .color-selector {

@@ -4,6 +4,7 @@
       v-if="isEditorOpen"
       v-model:content="content"
       v-track-focusleave
+      class="note-editor"
       @focusleave="completeNoteEdit"
       @delete="closeEditor"
       @close="completeNoteEdit"
@@ -51,6 +52,10 @@ const emitNewNote = (content: NoteContent) => {
 <style scoped>
 .note-creator {
   width: 600px;
+}
+
+.note-editor {
+  width: 100%;
 }
 
 .preview {
