@@ -34,6 +34,10 @@
     {
       "files": ["pages/**/*.vue", "layouts/*.vue"],
       "rules": { "vue/multi-word-component-names": "off" }
+    },
+    {
+      "files": "composables/*.ts",
+      "rules": { "@typescript-eslint/explicit-function-return-type": "off" }
     }
   ]
 }
