@@ -39,7 +39,7 @@ onMounted(() => {
 })
 
 const pickerColor: ComputedRef<string> = computed(() => {
-  return props.color === 'transparent' ? pickerColor.value ?? customColorsStore.recentColors[0] : props.color
+  return props.color === 'transparent' ? pickerColor.value ?? customColorsStore.customColors[0] : props.color
 })
 
 interface ColorOptions {
@@ -54,8 +54,8 @@ const colorOptions: ColorOptions = {
   picker: { color: pickerColor }
 }
 
-customColorsStore.recentColors.forEach((color, index) => {
-  colorOptions['recent-' + index] = { color }
+customColorsStore.customColors.forEach((color, index) => {
+  colorOptions['custom-' + index] = { color }
 })
 
 const picked = ref<string | null>(null)

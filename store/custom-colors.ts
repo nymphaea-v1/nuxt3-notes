@@ -11,5 +11,5 @@ export const useCustomColors = defineStore('customColors', () => {
     while (customColors.value.length > 5) customColors.value.pop()
   }
 
-  return { recentColors: skipHydrate(customColors), add }
+  return { customColors, add }
 })
