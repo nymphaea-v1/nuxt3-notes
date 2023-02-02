@@ -1,133 +1,65 @@
 <template>
   <div
+    ref="noteListElement"
     class="note-list"
-    @mousedown="updateLastClickCoords"
   >
-    <div v-masonry="notes">
-      <client-only>
-        <c-note
-          v-for="note in notes"
-          :key="note.id"
-          class="note"
-          :note="note"
-          @color-select="selectColor(note)"
-          @note-edit="editNote(note)"
-          @delete="deleteNote(note.id)"
-        />
-      </client-only>
-    </div>
-    <c-color-selector
-      v-if="isOnColorSelect"
-      ref="colorSelectorElement"
-      v-model:color="noteOnColorSelect!.content.color"
-      v-track-focusleave
-      v-focus
-      class="color-selector"
-      @focusleave="selectColorDone"
-    />
-    <c-modal
-      v-if="isOnNoteEdit"
-      @close="editNoteDone"
+    <div
+      v-masonry="reversedNotes"
+      class="masonry"
     >
-      <c-note-editor
-        v-model:content="noteOnEditContent"
-        class="note-editor"
-        @delete="deleteNoteOnEdit"
-        @close="editNoteDone"
+      <c-note
+        v-for="note in reversedNotes"
+        :key="note.id"
+        class="note"
+        :class="{ wide: isWideNote }"
+        :note="note"
       />
-    </c-modal>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ComponentPublicInstance } from 'vue'
-import { Note, NoteContent } from '~~/store/notes'
+import { Note } from '~~/types/note'
 
-const notesStore = useNotes()
-const notes = ref<Note[]>([])
+const props = defineProps<{ notes: Note[] }>()
 
-watch(() => notesStore.notes.length, () => {
-  notes.value = [...notesStore.notes]
-  notes.value.reverse()
-}, { immediate: true })
+const getReversedNotes = (notes: Note[]) => [...notes].reverse()
+const reversedNotes = ref(getReversedNotes(props.notes))
 
-const isOnColorSelect = ref(false)
-const noteOnColorSelect = ref<Note | null>(null)
+watch(() => props.notes, () => {
+  reversedNotes.value = getReversedNotes(props.notes)
+}, { deep: true })
 
-const selectColor = (note: Note) => {
-  noteOnColorSelect.value = note
-  isOnColorSelect.value = true
-}
+const noteListElement = ref<HTMLElement | null>(null)
+const isWideNote = ref(false)
 
-const selectColorDone = () => {
-  noteOnColorSelect.value = null
-  isOnColorSelect.value = false
-}
+onMounted(() => {
+  if (noteListElement.value === null) return
 
-const colorSelectorElement = ref<ComponentPublicInstance | null>(null)
-const lastClickCoords = ref({ x: 0, y: 0 })
-
-watch(colorSelectorElement, (newValue) => {
-  if (newValue === null) return
-
-  newValue.$el.style.top = lastClickCoords.value.y + 'px'
-  newValue.$el.style.left = lastClickCoords.value.x + 'px'
+  new ResizeObserver(() => {
+    if (noteListElement.value !== null && noteListElement.value.clientWidth <= 470) {
+      isWideNote.value = true
+    } else isWideNote.value = false
+  }).observe(noteListElement.value)
 })
-
-const updateLastClickCoords = (event: MouseEvent) => {
-  lastClickCoords.value = getMouseCoords(event)
-}
-
-const isOnNoteEdit = ref(false)
-const noteOnEdit = ref<Note | null>(null)
-const noteOnEditContent = ref<NoteContent | undefined>(undefined)
-
-const editNote = (note: Note) => {
-  noteOnEdit.value = note
-  noteOnEditContent.value = note.content
-  isOnNoteEdit.value = true
-}
-
-const editNoteDone = () => {
-  if (noteOnEdit.value === null || noteOnEditContent.value === undefined) return
-
-  noteOnEdit.value.content = noteOnEditContent.value
-  resetEditInfo()
-}
-
-const deleteNoteOnEdit = () => {
-  if (noteOnEdit.value !== null) deleteNote(noteOnEdit.value.id)
-  resetEditInfo()
-}
-
-const resetEditInfo = () => {
-  noteOnEdit.value = null
-  noteOnEditContent.value = undefined
-  isOnNoteEdit.value = false
-}
-
-const deleteNote = (id: number) => {
-  notesStore.remove(id)
-}
 </script>
 
 <style scoped>
 .note-list {
-  position: relative;
+  width: 90%;
+  max-width: 800px;
+  margin: 10px auto;
+}
 
-  width: 800px;
+.masonry {
+  position: relative;
 }
 
 .note {
   position: absolute;
 }
 
-.note-editor {
-  max-width: 90vw;
-}
-
-.color-selector {
-  position: absolute;
-  z-index: 1;
+.note.wide {
+  width: 100%;
 }
 </style>

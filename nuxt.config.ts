@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     ['@pinia/nuxt', { autoImports: ['defineStore', 'skipHydrate'] }],
     '@vueuse/nuxt'
   ],
+  ssr: false,
   vite: {
     // https://github.com/nuxt/framework/issues/7794
     devBundler: 'legacy',

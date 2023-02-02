@@ -1,8 +1,5 @@
 <template>
-  <c-button
-    class="button"
-    type="borderless"
-  >
+  <c-button class="button">
     <c-icon
       class="icon"
       :name="name"
@@ -16,27 +13,17 @@ defineProps<{ name: string }>()
 
 <style scoped>
 .button {
-  --icon-button-color: var(--color-opposite);
-  --button-color-main: var(--icon-button-color);
+  --icon-size: 48px;
+  --button-height: var(--icon-size);
 
-  width: 40px;
-  height: 40px;
   padding: 0;
   border-radius: 50%;
-
-  filter: contrast(70%);
-}
-
-.button:hover {
-  filter: contrast(100%);
 }
 
 .icon {
   display: block;
   width: 50%;
-  height: 50%;
+  height: 100%;
   margin: 0 auto;
-
-  color: inherit;
 }
 </style>

@@ -1,14 +1,15 @@
 <template>
   <div class="note-creator">
     <c-note-editor
-      v-if="isEditorOpen"
+      v-if="content !== null"
       v-model:content="content"
       v-track-focusleave
       class="note-editor"
-      @focusleave="completeNoteEdit"
-      @delete="closeEditor"
-      @close="completeNoteEdit"
-      @keydown.esc="completeNoteEdit"
+      type="main"
+      @action="processAction"
+      @done="create"
+      @focusleave="create"
+      @keydown.esc="create"
     />
     <div
       v-else
@@ -21,37 +22,44 @@
 </template>
 
 <script setup lang="ts">
-import { NoteContent, Note } from '~~/store/notes'
+import { NoteContent } from '~~/types/note'
+import { EditorNoteActionName } from './c-note-editor.vue'
 
-const emits = defineEmits<{ (e: 'newNote', note: Note): void }>()
+const notesStore = useNotes()
+const content = ref<NoteContent | null>(null)
 
-const content = ref<NoteContent>(new NoteContent())
-const isEditorOpen = ref(false)
+const create = () => {
+  let id = null
+
+  if (content.value !== null && (content.value.title !== '' || content.value.text !== '')) {
+    id = notesStore.create(content.value).id
+  }
+
+  closeEditor()
+  return id
+}
+
+const processAction = (action: EditorNoteActionName) => {
+  if (action === 'archive') {
+    const id = create()
+    if (id !== null) notesStore.archive(id)
+  } else if (action === 'delete') closeEditor()
+}
 
 const openEditor = () => {
-  isEditorOpen.value = true
+  content.value = notesStore.getInitialContent()
 }
 
 const closeEditor = () => {
-  content.value = new NoteContent()
-  isEditorOpen.value = false
-}
-
-const completeNoteEdit = () => {
-  emitNewNote(content.value)
-  closeEditor()
-}
-
-const emitNewNote = (content: NoteContent) => {
-  if (content.title !== '' || content.text !== '') {
-    emits('newNote', new Note(content))
-  }
+  content.value = null
 }
 </script>
 
 <style scoped>
 .note-creator {
-  width: 600px;
+  width: 90%;
+  max-width: 600px;
+  margin: 10px auto;
 }
 
 .note-editor {

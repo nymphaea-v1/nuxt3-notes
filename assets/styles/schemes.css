@@ -1,5 +1,7 @@
 :root {
   --color-brand: #af09ff;
+  --color-brand-light: #d683ff;
+  --color-brand-dark: #6b00a0;
   
   --color-background-light: #ffffff;
   --color-text-light: #26262d;
@@ -17,6 +19,7 @@
 }
 
 [color-scheme="light"] {
+  --color-brand-themed: var(--color-brand-light);
   --color-background: var(--color-background-light);
   --color-text: var(--color-text-light);
   --color-border: var(--color-border-light);
@@ -26,6 +29,7 @@
 }
 
 [color-scheme="dark"] {
+  --color-brand-themed: var(--color-brand-dark);
   --color-background: var(--color-background-dark);
   --color-text: var(--color-text-dark);
   --color-border: var(--color-border-dark);

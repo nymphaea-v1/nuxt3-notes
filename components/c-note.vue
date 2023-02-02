@@ -1,22 +1,22 @@
 <template>
   <c-card
     class="note"
-    :background-color="note.content.color"
+    :background-color="color"
   >
     <div class="content">
       <div
         class="body"
-        @click="emitNoteEdit"
+        @click="openNote(note)"
       >
         <c-paragraph
-          :lines="2"
           class="note-title"
+          :lines="2"
         >
           {{ note.content.title }}
         </c-paragraph>
         <c-paragraph
-          :lines="10"
           class="note-text"
+          :lines="10"
         >
           {{ note.content.text }}
         </c-paragraph>
@@ -28,39 +28,40 @@
         </c-paragraph>
       </div>
       <c-note-actions
+        v-model:color="color"
         class="footer"
-        @color-select="emitColorSelect"
-        @delete="emitDelete"
+        :type="note.type"
+        @action="processAction"
       />
     </div>
   </c-card>
 </template>
 
 <script setup lang="ts">
-import { Note } from '~~/store/notes'
+import { Note, NoteActionName } from '~~/types/note'
 
-defineProps<{ note: Note }>()
+const props = defineProps<{ note: Note }>()
 
-const emits = defineEmits<{
-  (e: 'colorSelect'): void
-  (e: 'noteEdit'): void
-  (e: 'delete'): void
-}>()
+const notesStore = useNotes()
+const color = ref(props.note.content.color)
 
-const emitColorSelect = () => emits('colorSelect')
-const emitNoteEdit = () => emits('noteEdit')
-const emitDelete = () => emits('delete')
+watch(() => props.note.content.color, (newValue) => {
+  if (color.value !== newValue) color.value = newValue
+})
+
+const processAction = (action: NoteActionName) => {
+  if (!(action in notesStore)) return
+
+  if (action === 'changeColor') notesStore.changeColor(props.note.id, color.value)
+  else (notesStore[action](props.note.id))
+}
+
+const openNote = useOpenedNote().open
 </script>
 
 <style scoped>
 .note {
   width: 230px;
-}
-
-@media screen and (max-width: 521px) {
-  .note {
-    width: 100%;
-  }
 }
 
 .content {
@@ -96,7 +97,7 @@ const emitDelete = () => emits('delete')
 }
 
 .footer {
-  justify-content: space-evenly;
+  position: relative;
 
   opacity: 0;
 

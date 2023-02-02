@@ -2,75 +2,70 @@
   <c-card
     class="note-editor"
     :background-color="contentDraft.color"
-    @keydown.ctrl.enter="emitClose"
-    @keydown.meta.enter="emitClose"
+    @keydown.ctrl.enter="emitDone"
+    @keydown.meta.enter="emitDone"
   >
     <div class="content">
       <div class="body">
         <c-textarea
           v-model:content="contentDraft.title"
-          placeholder="Title"
           class="note-title"
+          placeholder="Title"
+          :disabled="type === 'deleted'"
         />
         <c-textarea
           v-model:content="contentDraft.text"
           v-focus
-          placeholder="Take a note..."
           class="note-text"
+          placeholder="Take a note..."
+          :disabled="type === 'deleted'"
         />
       </div>
       <div class="footer">
         <c-note-actions
-          @delete="emitDelete"
-          @color-select="openColorSelector"
+          v-model:color="contentDraft.color"
+          :type="type"
+          @action="processAction"
         />
         <div class="buttons">
-          <c-button
-            class="close-button"
-            type="borderless"
-            @click="emitClose"
-          >
-            <span>Закрыть</span>
+          <c-button @click="emitDone">
+            Done
           </c-button>
         </div>
-        <c-color-selector
-          v-if="isOnColorSelect"
-          v-model:color="contentDraft.color"
-          v-track-focusleave
-          v-focus
-          class="color-selector"
-          @focusleave="closeColorSelector"
-        />
       </div>
     </div>
   </c-card>
 </template>
 
 <script setup lang="ts">
-import { NoteContent } from '~~/store/notes'
+import { NoteContent, NoteType, NoteActionName } from '~~/types/note'
 
-const props = defineProps<{ content?: NoteContent }>()
+export type EditorNoteActionName = Exclude<NoteActionName, 'changeColor'>
+
+const props = defineProps<{
+  content: NoteContent
+  type: NoteType
+}>()
 
 const emits = defineEmits<{
   (e: 'update:content', content: NoteContent): void
-  (e: 'delete'): void
-  (e: 'close'): void
+  (e: 'action', action: EditorNoteActionName): void
+  (e: 'done'): void
 }>()
 
-const contentDraft = ref(props.content ? { ...props.content } : new NoteContent())
+const contentDraft = ref({ ...props.content })
 
-watch(contentDraft, (newValue) => {
-  emitUpdateContent(newValue)
+watch(contentDraft, () => {
+  emitUpdateContent(contentDraft.value)
 }, { deep: true })
 
-const isOnColorSelect = ref(false)
-
-const openColorSelector = () => { isOnColorSelect.value = true }
-const closeColorSelector = () => { isOnColorSelect.value = false }
+const processAction = (action: NoteActionName) => {
+  if (action !== 'changeColor') emitAction(action)
+}
 
 const emitUpdateContent = (content: NoteContent) => emits('update:content', content)
-const emitDelete = () => emits('delete')
-const emitClose = () => emits('close')
+const emitAction = (action: EditorNoteActionName) => emits('action', action)
+const emitDone = () => emits('done')
 </script>
 
 <style scoped>
@@ -106,15 +101,5 @@ const emitClose = () => emits('close')
   top: 100%;
   left: 0;
   z-index: 1;
-}
-
-.close-button {
-  height: 35px;
-
-  --button-color-main: var(--color-text);
-}
-
-.close-button span {
-  text-transform: none;
 }
 </style>
