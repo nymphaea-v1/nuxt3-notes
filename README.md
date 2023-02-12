@@ -15,3 +15,22 @@ All notes stored in LocalStorage.
 - Pinia
 - TypeScript
 - ESLint, Stylelint
+
+## Installation / Запуск
+
+### Install the dependencies / Установка зависимостей
+```bash
+yarn
+# or
+npm install
+```
+
+### Start the app in development mode / Запуск в режиме разработки
+```bash
+yarn dev
+# or
+npm run dev
+```
+
+## Links / Ссылки
+- [Демо на Netlify](https://definitely-not-google-keep.netlify.app)
